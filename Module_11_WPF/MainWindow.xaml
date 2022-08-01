@@ -1,0 +1,55 @@
+﻿<Window x:Class="Module_11_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Module_11_WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1050">
+    <Grid>
+        <TreeView x:Name="Menu" Initialized="Menu_Initialized" Margin="10,12,632,37" SelectedItemChanged="Menu_SelectedItemChanged">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding _departments}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="TextId" Text="{Binding IdDepartment}" Foreground="Green"/>
+                        <TextBlock Text="   "/>
+                        <TextBlock Text="{Binding NameDepartment}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <ListView x:Name="ListEmployee" 
+                  Margin="423,12,0,37" 
+                  HorizontalAlignment="Left" 
+                  Width="617" 
+                  ItemsSource="{Binding Employee}" 
+                  GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler"
+                  SelectionChanged="ListEmployee_SelectionChanged">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Редактировать" ></MenuItem>
+                    <MenuItem Header="Уволить" Click="MenuItemDeleta_Click"></MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="100">Имя</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Surname}" Width="100">Фамилия</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Post}" Width="100">Должность</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Age}" Width="100">Возраст</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Salary}" Width="100">Зарплата</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Width="100">Служебный №</GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <ListView.Resources>
+
+            </ListView.Resources>
+        </ListView>
+        <Button Content="Уволить" HorizontalAlignment="Left" Margin="423,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="59" Click="Button_Click_Delete" Height="20" VerticalAlignment="Bottom"/>
+        <Button Content="Нанять сотрудника" HorizontalAlignment="Left" Margin="487,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="125" Click="Button_Click_NewEmployee" Height="20" VerticalAlignment="Bottom"/>
+        <Button Content="Редактировать данные" HorizontalAlignment="Left" Margin="617,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="164" Height="20" VerticalAlignment="Bottom" Click="Button_ClickEdit"/>
+        <Button Content="Удалить" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="88" Click="Button_DelateDepartment"/>
+        <Button Content="Добавть" HorizontalAlignment="Left" Margin="103,0,0,10" VerticalAlignment="Bottom" Width="72"/>
+        <Button Content="Редактировать" HorizontalAlignment="Left" Margin="180,0,0,10" VerticalAlignment="Bottom" Width="103"/>
+    </Grid>
+</Window>
