@@ -18,6 +18,9 @@ namespace Module_11_WPF
 
         private ObservableCollection<Employee> _employees;
         private static uint _idEmployee;
+        private uint _idDepartment;
+
+        private uint _idDepartmentSelection;
         static EmployeeManagement()
         {
             _idEmployee = 0;
@@ -48,35 +51,42 @@ namespace Module_11_WPF
         private void EditEventEmployee(object? sender, NotifyCollectionChangedEventArgs e)
         {
             Employee employee;
+            uint id = 0;
             object[] employeeObject = new object[1];
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     employeeObject = (object[])e.NewItems.SyncRoot;
                     employee = (Employee)employeeObject[0];
+                    id = employee.IdDepartment;
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     employeeObject = (object[])e.OldItems.SyncRoot;
                     employee = (Employee)employeeObject[0];
+                    id = employee.IdDepartment;
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     employeeObject = (object[])e.NewItems.SyncRoot;
                     employee = (Employee)employeeObject[0];
+                    id = employee.IdDepartment;
+                    
                     break;
             }
+            _idDepartment = id;
+            EditSalaryDirector();
         }
-        public void GetCountEmployee(uint idDepartment)
+        public int GetCountEmployee(uint idDepartment)
         {
-            var employee = _employees.Where()
+            _idDepartmentSelection = idDepartment;
+            var employee = _employees.Where(Fild);
+            int count = employee.Count();
+            return count;
         }
         public bool Fild(Employee employee)
         {
-            return employee.
+            return employee.IdDepartment == _idDepartmentSelection;
         }
-        private void EditSalaryDirector()
-        {
 
-        }
         public void Test()
         {
             NewDirektor("Grin", "Walt", 25, 1);
@@ -193,6 +203,41 @@ namespace Module_11_WPF
             Employee employee = (Employee)value.ToList()[0];
             int index = _employees.IndexOf(employee);
             return index;
+        }
+        private void EditSalaryDirector()
+        {
+            uint sumSalary = 0;
+            IEnumerable<Employee> employees = _employees.Where(GetEmployeesById);
+            foreach (var employee in employees)
+            {
+                if (employee.Post != "Директор")
+                {
+                    sumSalary += employee.Salary;
+                }
+            }
+            IEnumerable<Director> director = GetDirector(employees);
+            Director directorToList = (Director)director.ToList()[0];
+            DirectorEditSalary(directorToList, sumSalary);
+        }
+        private IEnumerable<Director> GetDirector(IEnumerable<Employee> employees)
+        {
+            IEnumerable<Director> director = (IEnumerable<Director>)(Director)employees.Where(PredicatGetDirector);
+            return director;
+        }
+
+        private bool PredicatGetDirector(Employee director)
+        {
+            return director.Post == "Директор";
+        }
+
+        private void DirectorEditSalary(Director director, uint sumSalary)
+        {
+            director.Salary = sumSalary;
+        }
+
+        private bool GetEmployeesById(Employee employee)
+        {
+            return employee.IdDepartment == _idDepartment;
         }
     }
 }

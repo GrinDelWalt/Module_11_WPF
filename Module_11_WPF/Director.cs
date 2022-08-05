@@ -22,13 +22,22 @@ namespace Module_11_WPF
             _idDepartment = idDepartment;
         }
         
-        public new uint Salary
-        {
-            get
+        public new uint Salary 
+        { 
+            get { return _salary = 1300; } 
+            set 
             {
-                //SumSalaryWorkers();
-                return _salary = 1300;
-            }
+                double salary = value * 0.15;
+                if (salary > 1300)
+                {
+                    _salary = (uint)salary;
+                }
+                else
+                {
+                    _salary = 1300;
+                }
+            } 
         }
+       
     }
 }

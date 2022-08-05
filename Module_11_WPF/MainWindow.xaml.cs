@@ -16,12 +16,13 @@ namespace Module_11_WPF
     public partial class MainWindow : Window
     {
         private DepartmentManagement _departmentManagement;
-        private ObservableCollection<Department> _departments;
         private EmployeeManagement _employeeManagement;
         private WindowSelection _windowSelection;
-        private WindowDirector _windowNewDirector;
+        private WindowDirector _windowDirector;
         private WindowWorker _windowWorker;
-        private WindowIntern _windowNewIntern;
+        private WindowIntern _windowIntern;
+        private WindowNewDepartment _windowDepartment;
+        private WindowDepartmEdit _windowDepartmEdit;
 
 
         private uint _idDepartment;
@@ -31,10 +32,8 @@ namespace Module_11_WPF
         public MainWindow()
         {
             _departmentManagement = new DepartmentManagement();
-            _departments = new ObservableCollection<Department>();
             _employeeManagement = new EmployeeManagement();
             
-            _departments = _departmentManagement.GetDepartment();
             _departmentManagement.Test();
             _employeeManagement.Test();
 
@@ -43,7 +42,7 @@ namespace Module_11_WPF
 
         private void Menu_Initialized(object sender, EventArgs e)
         {
-            Menu.ItemsSource = _departments;
+            Menu.ItemsSource = _departmentManagement.GetDepartment();
         }
 
         private void ButtonName_Click(object sender, RoutedEventArgs e)
@@ -168,12 +167,7 @@ namespace Module_11_WPF
             }
             else
             {
-                MessageBox.Show(
-                       "Выбирете департамент",
-                       this.Title,
-                       MessageBoxButton.OK,
-                       MessageBoxImage.Information
-                       );
+                MesegeBoxInformational("Выбирете департамент");
                 return;
             }
         }
@@ -186,9 +180,9 @@ namespace Module_11_WPF
             switch (resultSelectid)
             {
                 case "Director":
-                    _windowNewDirector = new WindowDirector();
-                    _windowNewDirector.DelegatWindowDirector += EventNewDirector;
-                    _windowNewDirector.ShowDialog();
+                    _windowDirector = new WindowDirector();
+                    _windowDirector.DelegatWindowDirector += EventNewDirector;
+                    _windowDirector.ShowDialog();
                     break;
                 case "Worker":
                     _windowWorker = new WindowWorker();
@@ -196,9 +190,9 @@ namespace Module_11_WPF
                     _windowWorker.ShowDialog();
                     break;
                 case "Intern":
-                    _windowNewIntern = new WindowIntern();
-                    _windowNewIntern.DelegatIternWindow += EventNewIntern;
-                    _windowNewIntern.ShowDialog();
+                    _windowIntern = new WindowIntern();
+                    _windowIntern.DelegatIternWindow += EventNewIntern;
+                    _windowIntern.ShowDialog();
                     break;
                 default:
                     break;
@@ -207,9 +201,9 @@ namespace Module_11_WPF
         }
         private void EventNewDirector(object sender, EventArgs e)
         {
-            string name = _windowNewDirector.NameDirector;
-            string surmane = _windowNewDirector.Surname;
-            uint age = _windowNewDirector.Age;
+            string name = _windowDirector.NameDirector;
+            string surmane = _windowDirector.Surname;
+            uint age = _windowDirector.Age;
             _employeeManagement.NewDirektor(name, surmane, age, _idDepartment);
         }
         private void EventNewWorker(object sender, EventArgs e)
@@ -224,10 +218,10 @@ namespace Module_11_WPF
         }
         private void EventNewIntern(object sender, EventArgs e)
         {
-            string name = _windowNewIntern.NameIntern;
-            string surname = _windowNewIntern.Surname;
-            uint age = _windowNewIntern.Age;
-            uint salary = _windowNewIntern.Salary;
+            string name = _windowIntern.NameIntern;
+            string surname = _windowIntern.Surname;
+            uint age = _windowIntern.Age;
+            uint salary = _windowIntern.Salary;
             _employeeManagement.NewIntern(name, surname, _idDepartment, age, salary);
         }
         private void RefreshList()
@@ -239,21 +233,70 @@ namespace Module_11_WPF
 
         private void Button_DelateDepartment(object sender, RoutedEventArgs e)
         {
+            if (null == Menu.SelectedItem)
+            {
+                MesegeBoxInformational("Выбирете департамент");
+                return;
+            }
             Department department = (Department)Menu.SelectedItem;
-            uint idDepartment = department.IdDepartment;
 
+            uint idDepartment;
+
+            idDepartment = department.IdDepartment;
             
+            int count = _employeeManagement.GetCountEmployee(idDepartment);
+
 
             if (count != 0)
             {
-                MessageBox.Show(
-                       "В депортаме остались сотрудники, переведите или увольте их",
+                MesegeBoxInformational("В депортаме остались сотрудники, переведите или увольте их.");
+                return;
+            }
+            _departmentManagement.DelateDepartment(department);
+        }
+        private void MesegeBoxInformational(string text)
+        {
+            MessageBox.Show(
+                       text,
                        this.Title,
                        MessageBoxButton.OK,
                        MessageBoxImage.Information
                        );
+        }
+
+        private void Button_NewDepartment(object sender, RoutedEventArgs e)
+        {
+            _windowDepartment = new WindowNewDepartment(_departmentManagement.GetDepartment());
+            _windowDepartment.DelegatWindowDepartment += EventNewDepartment;
+            _windowDepartment.ShowDialog();
+            ICollectionView dataView =
+              CollectionViewSource.GetDefaultView(Menu.ItemsSource);
+            dataView.Refresh();
+        }
+        private void EventNewDepartment(object sender, EventArgs e)
+        {
+            _departmentManagement.NewDepartment(_windowDepartment.NameDep);
+        }
+
+        private void Button_EditDepartment(object sender, RoutedEventArgs e)
+        {
+            if (Menu.SelectedItem == null)
+            {
+                MesegeBoxInformational("Выбирете департамент");
                 return;
-            }
+            }   
+            _windowDepartmEdit = new WindowDepartmEdit((Department)Menu.SelectedItem, _departmentManagement.GetDepartment());
+            _windowDepartmEdit.DelegatDeleteDepartment += EventDelateDepartment;
+            _windowDepartmEdit.ShowDialog();
+        }
+        private void EventDelateDepartment(object sender, EventArgs e)
+        {
+            _departmentManagement.DelateDepartment(_windowDepartmEdit.DepartmnetEdit);
+        }
+        private void EventRecordDepartment(object sender, EventArgs e)
+        {
+            ObservableCollection<Department> departments = _departmentManagement.GetDepartment();
+            departments.Add(_windowDepartmEdit.RecorgDepartment);
         }
     }
 

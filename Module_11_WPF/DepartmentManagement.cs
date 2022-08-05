@@ -9,8 +9,8 @@ namespace Module_11_WPF
 {
     class DepartmentManagement
     {
-        public ObservableCollection<Department> _departments;
-
+        private ObservableCollection<Department> _departments;
+        private uint _idDepartment;
         public DepartmentManagement()
         {
             _departments = new ObservableCollection<Department>();
@@ -20,7 +20,7 @@ namespace Module_11_WPF
             _departments.Add(new Department("Finans"));
             _departments.Add(new Department("Management"));
             _departments.Add(new Department("Constructors"));
-            _departments.Add(new Department("Dezaners"));
+            _departments.Add(new Department("Dezhaners"));
 
             _departments[0].NewDepartment("finansDoun");
             _departments[0].NewDepartment("finansDoun2");
@@ -28,6 +28,11 @@ namespace Module_11_WPF
         public void NewDepartment(string nameDepartment)
         {
             _departments.Add(new Department(nameDepartment));
+        }
+        public void NewDepartmentDyId(uint id)
+        {
+            _idDepartment = id;
+            IEnumerable<Department> department = _departments.Where(Find);
         }
         public uint GetNumber()
         {
@@ -42,6 +47,22 @@ namespace Module_11_WPF
                 number = GetNumber();
             }
             return number;
+        }
+        public void SerchDepartment(uint id)
+        {
+
+        }
+        public bool Find(Department department)
+        {
+            return department.IdDepartment == 6;
+        }
+        public void DelateDepartment(Department department)
+        {
+            _departments.Remove(department);
+        }
+        public void EditDepartment(Department department)
+        {
+            
         }
         
         public ObservableCollection<Department> GetDepartment()

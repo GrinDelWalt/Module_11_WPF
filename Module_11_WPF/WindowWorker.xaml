@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Module_11_WPF"
         mc:Ignorable="d"
-        Title="NewWorker" Height="450" Width="800">
+        Title="NewWorker" Height="300" Width="450">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" Text="Имя" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="name" HorizontalAlignment="Left" Margin="210,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
@@ -19,6 +19,6 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,79,0,0" Text="Руб\час" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,102,0,0" Text="Количество рабочих часов в месяц" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,125,0,0" Text="Должность" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button Content="Нанять" HorizontalAlignment="Left" Margin="134,150,0,0" VerticalAlignment="Top" Width="108" Click="Button_Click"/>
+        <Button Content="Ввод" HorizontalAlignment="Left" Margin="134,150,0,0" VerticalAlignment="Top" Width="108" Click="Button_Click"/>
     </Grid>
 </Window>
