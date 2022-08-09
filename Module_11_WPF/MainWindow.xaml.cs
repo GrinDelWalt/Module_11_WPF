@@ -23,6 +23,7 @@ namespace Module_11_WPF
         private WindowIntern _windowIntern;
         private WindowNewDepartment _windowDepartment;
         private WindowDepartmEdit _windowDepartmEdit;
+        private WindowEmployeeTransfer _windowEmployeeTransfer;
 
 
         private uint _idDepartment;
@@ -110,17 +111,7 @@ namespace Module_11_WPF
             _windowSelection.ShowDialog();
         }
 
-        private void MenuItemDeleta_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ListEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_Delete(object sender, RoutedEventArgs e)
+        private void Button_ClickDeleteEmployee(object sender, RoutedEventArgs e)
         {
             object employee = ListEmployee.SelectedItem;
             if (employee != null)
@@ -129,14 +120,16 @@ namespace Module_11_WPF
             }
             RefreshList();
         }
-        private void Button_ClickEdit(object sender, RoutedEventArgs e)
+        private void Button_ClickEditEmployee(object sender, RoutedEventArgs e)
         {
             object employee = ListEmployee.SelectedItem;
-            if (employee != null)
+            if (employee == null)
             {
-                _employeeManagement.EditEmployee(employee);
-                RefreshList();
+                MesegeBoxInformational("Выбирите сотрудника");
+                return;
             }
+            _employeeManagement.EditEmployee(employee);
+            RefreshList();
         }
         private void Button_Click_NewEmployee(object sender, RoutedEventArgs e)
         {
@@ -297,6 +290,17 @@ namespace Module_11_WPF
         {
             ObservableCollection<Department> departments = _departmentManagement.GetDepartment();
             departments.Add(_windowDepartmEdit.RecorgDepartment);
+        }
+
+        private void Button_EmployeeTransfer(object sender, RoutedEventArgs e)
+        {
+            if (ListEmployee.SelectedItem == null)
+            {
+                MesegeBoxInformational("Выбирите сотрудника");
+                return;
+            }
+            _windowEmployeeTransfer = new WindowEmployeeTransfer((Employee)ListEmployee.SelectedItem, _departmentManagement.GetDepartment(), _employeeManagement.GetEmployees());
+            _windowEmployeeTransfer.ShowDialog();
         }
     }
 

@@ -23,12 +23,10 @@
                   HorizontalAlignment="Left" 
                   Width="617" 
                   ItemsSource="{Binding Employee}" 
-                  GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler"
-                  SelectionChanged="ListEmployee_SelectionChanged">
+                  GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Редактировать" ></MenuItem>
-                    <MenuItem Header="Уволить" Click="MenuItemDeleta_Click"></MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
@@ -45,11 +43,12 @@
 
             </ListView.Resources>
         </ListView>
-        <Button Content="Уволить" HorizontalAlignment="Left" Margin="423,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="59" Click="Button_Click_Delete" Height="20" VerticalAlignment="Bottom"/>
+        <Button Content="Уволить" HorizontalAlignment="Left" Margin="423,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="59" Click="Button_ClickDeleteEmployee" Height="20" VerticalAlignment="Bottom"/>
         <Button Content="Нанять сотрудника" HorizontalAlignment="Left" Margin="487,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="125" Click="Button_Click_NewEmployee" Height="20" VerticalAlignment="Bottom"/>
-        <Button Content="Редактировать данные" HorizontalAlignment="Left" Margin="617,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="164" Height="20" VerticalAlignment="Bottom" Click="Button_ClickEdit"/>
+        <Button Content="Редактировать данные" HorizontalAlignment="Left" Margin="617,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="164" Height="20" VerticalAlignment="Bottom" Click="Button_ClickEditEmployee"/>
         <Button Content="Удалить" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="88" Click="Button_DelateDepartment"/>
         <Button Content="Добавть" HorizontalAlignment="Left" Margin="103,0,0,10" VerticalAlignment="Bottom" Width="72" Click="Button_NewDepartment"/>
         <Button Content="Редактировать" HorizontalAlignment="Left" Margin="180,0,0,10" VerticalAlignment="Bottom" Width="103" Click="Button_EditDepartment"/>
+        <Button Content="Перевести сотрудника" HorizontalAlignment="Left" Margin="786,0,0,12" Click="Button_EmployeeTransfer" Height="20" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

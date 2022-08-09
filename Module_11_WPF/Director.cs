@@ -20,17 +20,17 @@ namespace Module_11_WPF
             _id = id;
             _post = "Директор";
             _idDepartment = idDepartment;
+            _salary = 1300;
         }
         
-        public new uint Salary 
+        public override uint Salary 
         { 
-            get { return _salary = 1300; } 
+            get { return _salary; } 
             set 
             {
-                double salary = value * 0.15;
-                if (salary > 1300)
+                if (value > 1300)
                 {
-                    _salary = (uint)salary;
+                    _salary = value;
                 }
                 else
                 {

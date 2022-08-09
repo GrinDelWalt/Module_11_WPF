@@ -215,26 +215,26 @@ namespace Module_11_WPF
                     sumSalary += employee.Salary;
                 }
             }
-            IEnumerable<Director> director = GetDirector(employees);
-            Director directorToList = (Director)director.ToList()[0];
-            DirectorEditSalary(directorToList, sumSalary);
+            double sum = 0.15 * (double)sumSalary;
+            sumSalary = (uint)sum;
+            foreach (var director in employees)
+            {
+                if (director.Post == "Директор")
+                {
+                    director.Salary = sumSalary;
+                }
+            }
         }
-        private IEnumerable<Director> GetDirector(IEnumerable<Employee> employees)
+        private Director GetDirector(IEnumerable<Employee> employees)
         {
-            IEnumerable<Director> director = (IEnumerable<Director>)(Director)employees.Where(PredicatGetDirector);
-            return director;
+            IEnumerable<Employee> director = employees.Where(PredicatGetDirector);
+            Director directorToList = (Director)director.ToList()[0];
+            return directorToList;
         }
-
         private bool PredicatGetDirector(Employee director)
         {
             return director.Post == "Директор";
         }
-
-        private void DirectorEditSalary(Director director, uint sumSalary)
-        {
-            director.Salary = sumSalary;
-        }
-
         private bool GetEmployeesById(Employee employee)
         {
             return employee.IdDepartment == _idDepartment;

@@ -25,7 +25,7 @@ namespace Module_11_WPF
         public string Post { get { return _post; } set { _post = value; } }
         public uint IdDepartment { get { return _idDepartment; } set { _idDepartment = value; } }
         public uint Age { get { return _age; } set { _age = value; } }
-        public uint Salary { get { return _salary; } set { _salary = value; } }
+        public virtual uint Salary { get { return _salary; } set { _salary = value; } }
         public uint Id { get { return _id; } }
         
         protected uint _id;

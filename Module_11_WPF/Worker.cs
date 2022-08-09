@@ -20,7 +20,7 @@ namespace Module_11_WPF
             _hourlyPayment = hourlyPayment;
             GetSalary();
         }
-        public new uint Salary
+        public override uint Salary
         {
             get
             {

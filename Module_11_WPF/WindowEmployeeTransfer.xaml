@@ -1,0 +1,24 @@
+﻿<Window x:Class="Module_11_WPF.WindowEmployeeTransfer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Module_11_WPF"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="500">
+    <Grid>
+        <TreeView x:Name="ListDepartments" Margin="10,31,10,34" Initialized="ListDepartments_Initialized">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding _departments}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="TextId" Text="{Binding IdDepartment}" Foreground="Green"/>
+                        <TextBlock Text="   "/>
+                        <TextBlock Text="{Binding NameDepartment}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Выбер"/><Run Language="ru-ru" Text="и"/><Run Text="те департамент"/></TextBlock>
+        <Button Content="Ввод" HorizontalAlignment="Center" Margin="0,0,0,9" Click="Button_Click" Height="20" VerticalAlignment="Bottom"/>
+    </Grid>
+</Window>
