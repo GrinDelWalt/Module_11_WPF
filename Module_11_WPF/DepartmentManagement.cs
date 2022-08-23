@@ -9,30 +9,40 @@ namespace Module_11_WPF
 {
     class DepartmentManagement
     {
-        private ObservableCollection<Department> _departments;
+        private List<Department> _departments;
         private uint _idDepartment;
+
         public DepartmentManagement()
         {
-            _departments = new ObservableCollection<Department>();
+            _departments = new List<Department>();
         }
         public void Test()
         {
-            _departments.Add(new Department("Finans"));
-            _departments.Add(new Department("Management"));
-            _departments.Add(new Department("Constructors"));
-            _departments.Add(new Department("Dezhaners"));
+            _departments.Add(new Department("RoflanEPAM"));
 
-            _departments[0].NewDepartment("finansDoun");
-            _departments[0].NewDepartment("finansDoun2");
+            _departments[0].NewDepartment("Finans");
+            _departments[0].NewDepartment("Management");
+            _departments[0].NewDepartment("Constructors");
+            _departments[0].NewDepartment("Dezhaners");
+
+            _departments[0].Departments[1].NewDepartment("ManagementDone1");
+            _departments[0].Departments[1].NewDepartment("ManagementDone2");
         }
         public void NewDepartment(string nameDepartment)
         {
-            _departments.Add(new Department(nameDepartment));
+            if (_departments.Count == 0)
+            {
+                _departments.Add(new Department(nameDepartment));
+            }
+            else
+            {
+                _departments[0].NewDepartment(nameDepartment);
+            }
         }
         public void NewDepartmentDyId(uint id)
         {
             _idDepartment = id;
-            IEnumerable<Department> department = _departments.Where(Find);
+            IEnumerable<Department> department = _departments[0].Departments.Where(Find);
         }
         public uint GetNumber()
         {
@@ -48,9 +58,20 @@ namespace Module_11_WPF
             }
             return number;
         }
-        public void SerchDepartment(uint id)
+        public void NewDepartment(string locatedName, string nameDepartment)
         {
-
+            if (locatedName == "null")
+            {
+                NewDepartment(nameDepartment);
+            }
+            else if (locatedName == _departments[0].NameDepartment)
+            {
+                _departments[0].NewDepartment(nameDepartment);
+            }
+            else
+            {
+                _departments[0].NewDepartment(locatedName, nameDepartment);
+            }
         }
         public bool Find(Department department)
         {
@@ -58,14 +79,11 @@ namespace Module_11_WPF
         }
         public void DelateDepartment(Department department)
         {
-            _departments.Remove(department);
+            _departments[0].DelateDepartment(department);
         }
-        public void EditDepartment(Department department)
-        {
-            
-        }
-        
-        public ObservableCollection<Department> GetDepartment()
+
+
+        public List<Department> GetDepartment()
         {
             return _departments;
         }

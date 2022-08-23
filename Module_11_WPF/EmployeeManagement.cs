@@ -12,10 +12,6 @@ namespace Module_11_WPF
 
     class EmployeeManagement
     {
-        private WindowDirector _windowDirector;
-        private WindowWorker _windowWorker;
-        private WindowIntern _windowIntern;
-
         private ObservableCollection<Employee> _employees;
         private static uint _idEmployee;
         private uint _idDepartment;
@@ -31,14 +27,12 @@ namespace Module_11_WPF
         }
         public EmployeeManagement()
         {
-            //_directors = new List<Director>();
-            //_workers = new List<Worker>();
             _employees = new ObservableCollection<Employee>();
             _employees.CollectionChanged += EditEventEmployee;
         }
-        public void NewDirektor(string name, string surName, uint age, uint idDepartment)
+        public void NewDirektor(string name, string surName, uint age, uint idDepartment, string post)
         {
-            _employees.Add(new Director(name, surName, age, NextId(), idDepartment));
+            _employees.Add(new Director(name, surName, age, NextId(), idDepartment, post));
         }
         public void NewWorker(string name, string surname, uint idDepartment, uint age, uint workingHours, uint hourlyPayment, string post)
         {
@@ -59,21 +53,25 @@ namespace Module_11_WPF
                     employeeObject = (object[])e.NewItems.SyncRoot;
                     employee = (Employee)employeeObject[0];
                     id = employee.IdDepartment;
+                    _idDepartment = id;
+                    EditSalary(employee);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     employeeObject = (object[])e.OldItems.SyncRoot;
                     employee = (Employee)employeeObject[0];
                     id = employee.IdDepartment;
+                    _idDepartment = id;
+                    EditSalary(employee);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     employeeObject = (object[])e.NewItems.SyncRoot;
                     employee = (Employee)employeeObject[0];
                     id = employee.IdDepartment;
-                    
+                    _idDepartment = id;
+                    EditSalary(employee);
                     break;
             }
-            _idDepartment = id;
-            EditSalaryDirector();
+
         }
         public int GetCountEmployee(uint idDepartment)
         {
@@ -89,10 +87,10 @@ namespace Module_11_WPF
 
         public void Test()
         {
-            NewDirektor("Grin", "Walt", 25, 1);
-            NewDirektor("Jone", "Soer", 31, 2);
-            NewDirektor("Piter", "Parker", 21, 3);
-            NewDirektor("Toni", "Stark", 28, 4);
+            NewDirektor("Grin", "Walt", 25, 1, "Директор");
+            NewDirektor("Jone", "Soer", 31, 2, "Глава Департамента");
+            NewDirektor("Piter", "Parker", 21, 3, "Глава Департамента");
+            NewDirektor("Toni", "Stark", 28, 4, "Глава Департамента");
 
             NewWorker("Danial", "Wail", 2, 23, 60, 15, "Worker");
             NewWorker("Gone", "Smit", 2, 34, 45, 20, "Worker");
@@ -100,130 +98,124 @@ namespace Module_11_WPF
             NewWorker("Jim", "Pit", 2, 23, 50, 22, "Worker");
 
             NewIntern("Oleg", "Lobanov", 2, 33, 600);
+            
         }
         public ObservableCollection<Employee> GetEmployees()
         {
             return _employees;
         }
+        
         public void DelateEmployee(object employee)
         {
             _employees.Remove((Employee)employee);
         }
-        public void EditEmployee(object employee)
+        public void EditDirector(Director director, uint id)
         {
-            string type = employee.ToString();
-            switch (type)
-            {
-                case "Module_11_WPF.Worker":
-                    _windowWorker = new WindowWorker();
-                    _windowWorker.EditWorker((Worker)employee);
-                    _windowWorker.DelegatWindowWorker += EventEditWorker;
-                    _windowWorker.ShowDialog();
-                    break;
-                case "Module_11_WPF.Director":
-                    _windowDirector = new WindowDirector();
-                    _windowDirector.EditDirector((Director)employee);
-                    _windowDirector.DelegatWindowDirector += EventEditDirector;
-                    _windowDirector.ShowDialog();
-                    break;
-                case "Module_11_WPF.Intern":
-                    _windowIntern = new WindowIntern();
-                    _windowIntern.EditIntern((Intern)employee);
-                    _windowIntern.DelegatIternWindow += EventEditIntern;
-                    _windowIntern.ShowDialog();
-                    break;
-                default:
-                    break;
-            }
+            _employees.Insert(GetIndexEditEmployee(id), director);
         }
-        private void EventEditDirector(object sender, EventArgs e)
+        public void EditWorker(Worker worker, uint id)
         {
-            if (_windowDirector.EditResult)
-            {
-                EditDirector();
-            }
+            _employees.Insert(GetIndexEditEmployee(id), worker);
         }
-        private void EditDirector()
+        public void EditIntern(Intern Intern, uint id)
         {
-            int index = GetIndexEditEmployee();
-            Director director = new Director()
-            {
-                Name = _windowDirector.NameDirector,
-                Surname = _windowDirector.Surname,
-                Age = _windowDirector.Age,
-            };
-
-            _employees.Insert(index, director);
+            _employees.Insert(GetIndexEditEmployee(id), Intern);
         }
-        private void EventEditIntern(object sender, EventArgs e)
-        {
-            if (_windowIntern.EditResult)
-            {
-                EditIntern();
-            }
-        }
-        private void EditIntern()
-        {
-            int index = GetIndexEditEmployee();
-            Intern intern = new Intern()
-            {
-                Name = _windowIntern.NameIntern,
-                Surname = _windowIntern.Surname,
-                Age = _windowIntern.Age,
-                Salary = _windowIntern.Salary,
-            };
-            _employees.Insert(index, intern);
-        }
-        private void EventEditWorker(object sender, EventArgs e)
-        {
-            if (_windowWorker.EditResult)
-            {
-                EditWorker();
-            }
-        }
-        private void EditWorker()
-        {
-            int index = GetIndexEditEmployee();
-            Worker worker = new Worker()
-            {
-                Name = _windowWorker.NameWorker,
-                Surname = _windowWorker.Surname,
-                Post = _windowWorker.Post,
-                HourlyPayment = _windowWorker.HourlyPayment,
-                WorkingHours = _windowWorker.WorkingHours,
-                Age = _windowWorker.Age,
-            };
-            _employees.Insert(index, worker);
-        }
-        private int GetIndexEditEmployee()
+        public int GetIndexEditEmployee(uint id)
         {
             IEnumerable<Employee> value = from employees in _employees
-                                          where employees.Id == _windowIntern.Id
+                                          where employees.Id == id
                                           select employees;
-            Employee employee = (Employee)value.ToList()[0];
+            Employee employee = value.ToList()[0];
             int index = _employees.IndexOf(employee);
             return index;
         }
-        private void EditSalaryDirector()
+        private void EditSalary(Employee employeeEditSalary)
+        {
+            int index = _employees.IndexOf(employeeEditSalary);
+            EditSalaryDeputyHeadDepartment(employeeEditSalary, index);
+            EditSalaryHeadDepartment(employeeEditSalary, index);
+            EditSalaryDeputyDirector(index);
+            EditSalaryDirector(index);
+        }
+
+        private void EditSalaryDeputyHeadDepartment(Employee employeeEditSalary, int index)
+        {
+            IEnumerable<Employee> employees = from employee in _employees
+                                              where employee.IdDepartment == employeeEditSalary.IdDepartment
+                                              where employee.Post != "Глава Департамента"
+                                              where employee.Post != "Заместитель главы департамента"
+                                              select employee;
+
+            IEnumerable<Employee> director = SerchHeadDepartment(employeeEditSalary, "Заместитель главы департамента");
+            foreach (var element in director)
+            {
+                element.Salary = CalculationSalary(employees);
+            }
+        }
+        private void EditSalaryHeadDepartment(Employee employeeEditSalary, int index)
+        {
+            IEnumerable<Employee> employees = from employee in _employees
+                                              where employee.IdDepartment == employeeEditSalary.IdDepartment
+                                              where employee.Post != "Глава Департамента"
+                                              select employee;
+            IEnumerable<Employee> director = SerchHeadDepartment(employeeEditSalary, "Глава Департамента");
+            foreach (var element in director)
+            {
+                element.Salary = CalculationSalary(employees);
+            }
+        }
+        private IEnumerable<Employee> SerchHeadDepartment(Employee employeeSelectid, string post)
+        {
+            IEnumerable<Employee> director = from employee in _employees
+                                             where employee.IdDepartment == employeeSelectid.IdDepartment
+                                             where employee.Post == post
+                                             select employee;
+            return director;
+        }
+        private void EditSalaryDeputyDirector(int index)
+        {
+            IEnumerable<Employee> employees = from employee in _employees
+                                              where employee.Post != "Директор"
+                                              where employee.Post != "Заместитель директора"
+                                              select employee;
+            IEnumerable<Employee> director = SerchDirector("Заместитель директора");
+            foreach (var element in director)
+            {
+                element.Salary = CalculationSalary(employees);
+            }
+        }
+
+
+        private void EditSalaryDirector(int index)
+        {
+            IEnumerable<Employee> employees = from employee in _employees
+                                              where employee.Post != "Директор"
+                                              select employee;
+            IEnumerable<Employee> director = SerchDirector("Директор");
+            foreach (var element in director)
+            {
+                element.Salary = CalculationSalary(employees);
+            }
+        }
+        private IEnumerable<Employee> SerchDirector( string post)
+        {
+            IEnumerable<Employee> director = from employee in _employees
+                                             where employee.Post == post
+                                             select employee;
+            return director;
+        }
+        private uint CalculationSalary(IEnumerable<Employee> employees)
         {
             uint sumSalary = 0;
-            IEnumerable<Employee> employees = _employees.Where(GetEmployeesById);
-            foreach (var employee in employees)
+
+            foreach (Employee item in employees)
             {
-                if (employee.Post != "Директор")
-                {
-                    sumSalary += employee.Salary;
-                }
+                sumSalary += item.Salary;
             }
-            double sum = 0.15 * (double)sumSalary;
+            double sum = 0.15 * sumSalary;
             sumSalary = (uint)sum;
-            foreach (var director in employees)
-            {
-                if (director.Post == "Директор")
-                {
-                    director.Salary = sumSalary;
-                }
-            }
+            return sumSalary;
         }
         private Director GetDirector(IEnumerable<Employee> employees)
         {

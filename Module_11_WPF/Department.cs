@@ -9,13 +9,16 @@ namespace Module_11_WPF
 {
     public class Department
     {
+        public Department()
+        {
+
+        }
         public Department(string nameDepartment)
         {
             _nameDepartment = nameDepartment;
             _idDepartment = NextId();
-            _departments = new ObservableCollection<Department>();
+            _departments = new List<Department>();
         }
-        
         static Department()
         {
             _staticId = 0;
@@ -28,8 +31,51 @@ namespace Module_11_WPF
         {
             _departments.Add(new Department(nameDepartment));
         }
-        
-        public ObservableCollection<Department> Departments { get { return this._departments; } set { this._departments = value; } }
+        public void DelateDepartment(Department department)
+        {
+            bool result = _departments.Contains(department);
+            if (result)
+            {
+                _departments.Remove(department);
+            }
+            else
+            {
+                for (int i = 0; i < _departments.Count; i++)
+                {
+                    _departments[i].DelateDepartment(department);
+                }
+            }
+        }
+        public void NewDepartment(string locatedName, string nameDepartment)
+        {
+            Department department;
+            if (locatedName==null)
+            {
+                NewDepartment(nameDepartment);
+                return;
+            }
+            else
+            {
+                department = SearchDepartment(locatedName);
+            }
+            department.NewDepartment(nameDepartment);
+        }
+        private Department SearchDepartment(string name)
+        {
+            foreach (var depertment in _departments)
+            {
+                if (depertment.NameDepartment == name)
+                {
+                    return depertment;
+                }
+                if (depertment.Departments.Count != 0)
+                {
+                    depertment.SearchDepartment(name);
+                }
+            }
+            return null;
+        }
+        public List<Department> Departments { get { return this._departments; } set { this._departments = value; } }
         public string NameDepartment { get { return this._nameDepartment; } set { this._nameDepartment = value; } }
         public uint IdDepartment { get { return _idDepartment; } }
         public uint NumberOfMamagedDepartments { get { return this._numberOfMamagedDepartments; } set { this._numberOfMamagedDepartments = value; } }
@@ -37,7 +83,7 @@ namespace Module_11_WPF
         private static uint _staticId;
         private uint _idDepartment;
         private string _nameDepartment;
-        public ObservableCollection<Department> _departments { get; private set; }
+        public List<Department> _departments { get; private set; }
         private uint _numberOfMamagedDepartments;
     }
 }

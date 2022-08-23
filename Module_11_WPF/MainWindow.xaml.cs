@@ -25,19 +25,24 @@ namespace Module_11_WPF
         private WindowDepartmEdit _windowDepartmEdit;
         private WindowEmployeeTransfer _windowEmployeeTransfer;
 
+        private List<string> _listPostDirector;
+        private List<string> _listPostHead;
 
         private uint _idDepartment;
-        GridViewColumnHeader _lastHeaderClicked = null;
-        ListSortDirection _lastDirection = ListSortDirection.Ascending;
+        private GridViewColumnHeader _lastHeaderClicked = null;
+        private ListSortDirection _lastDirection = ListSortDirection.Ascending;
 
         public MainWindow()
         {
-            _departmentManagement = new DepartmentManagement();
-            _employeeManagement = new EmployeeManagement();
-            
-            _departmentManagement.Test();
-            _employeeManagement.Test();
+            DeserializationJSON deserialization = new DeserializationJSON();
+            deserialization.DeserializJSON();
 
+            _employeeManagement = deserialization.GetEmployeeManagement();
+            _departmentManagement = deserialization.GetDepartmentManagement();
+            //_departmentManagement.Test();
+            //_employeeManagement.Test();
+
+            ReadListPost();
             InitializeComponent();
         }
 
@@ -128,8 +133,99 @@ namespace Module_11_WPF
                 MesegeBoxInformational("Выбирите сотрудника");
                 return;
             }
-            _employeeManagement.EditEmployee(employee);
+            Department department = (Department)Menu.SelectedItem;
+            EditEmployee(employee, department.IdDepartment);
             RefreshList();
+        }
+        public void EditEmployee(object employee, uint idDepartment)
+        {
+            string type = employee.ToString();
+            switch (type)
+            {
+                case "Module_11_WPF.Worker":
+                    _windowWorker = new WindowWorker();
+                    _windowWorker.EditWorker((Worker)employee);
+                    _windowWorker.DelegatWindowWorker += EventEditWorker;
+                    _windowWorker.ShowDialog();
+                    break;
+                case "Module_11_WPF.Director":
+                    _windowDirector = new WindowDirector(idDepartment);
+                    _windowDirector.GetEmployee(_employeeManagement.GetEmployees());
+                    _windowDirector.DelegatWindowDirector += EventEditDirector;
+                    Department department = (Department)Menu.SelectedItem;
+                    CheckEmployee(department, true);
+                    _windowDirector.EditDirector((Director)employee);
+                    _windowDirector.ShowDialog();
+                    break;
+                case "Module_11_WPF.Intern":
+                    _windowIntern = new WindowIntern();
+                    _windowIntern.EditIntern((Intern)employee);
+                    _windowIntern.DelegatIternWindow += EventEditIntern;
+                    _windowIntern.ShowDialog();
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void EventEditDirector(object sender, EventArgs e)
+        {
+            if (_windowDirector.EditResult)
+            {
+                EditDirector();
+            }
+        }
+        private void EventEditWorker(object sender, EventArgs e)
+        {
+            if (_windowWorker.EditResult)
+            {
+                EditWorker();
+            }
+        }
+        private void EventEditIntern(object sender, EventArgs e)
+        {
+            if (_windowIntern.EditResult)
+            {
+                EditIntern();
+            }
+        }
+        private void EditDirector()
+        {
+            Director director = new Director()
+            {
+                Name = _windowDirector.NameDirector,
+                Surname = _windowDirector.Surname,
+                Age = _windowDirector.Age,
+                IdDepartment = _windowDirector.IdDepartment,
+
+            };
+
+            _employeeManagement.EditDirector(director, _windowDirector.Id);
+        }
+        private void EditWorker()
+        {
+            Worker worker = new Worker()
+            {
+                Name = _windowWorker.NameWorker,
+                Surname = _windowWorker.Surname,
+                Post = _windowWorker.Post,
+                HourlyPayment = _windowWorker.HourlyPayment,
+                WorkingHours = _windowWorker.WorkingHours,
+                Age = _windowWorker.Age,
+                IdDepartment = _windowWorker.IdDepartment,
+            };
+            _employeeManagement.EditWorker(worker, _windowWorker.Id);
+        }
+        private void EditIntern()
+        {
+            Intern intern = new Intern()
+            {
+                Name = _windowIntern.NameIntern,
+                Surname = _windowIntern.Surname,
+                Age = _windowIntern.Age,
+                Salary = _windowIntern.Salary,
+                IdDepartment = _windowIntern.IdDepartment,
+            };
+            _employeeManagement.EditIntern(intern, _windowIntern.Id);
         }
         private void Button_Click_NewEmployee(object sender, RoutedEventArgs e)
         {
@@ -173,9 +269,13 @@ namespace Module_11_WPF
             switch (resultSelectid)
             {
                 case "Director":
-                    _windowDirector = new WindowDirector();
+                    Department department = (Department)Menu.SelectedItem;
+                    _windowDirector = new WindowDirector(department.IdDepartment);
                     _windowDirector.DelegatWindowDirector += EventNewDirector;
+                    _windowDirector.GetEmployee(_employeeManagement.GetEmployees());
+                    CheckEmployee(department, false);
                     _windowDirector.ShowDialog();
+
                     break;
                 case "Worker":
                     _windowWorker = new WindowWorker();
@@ -190,14 +290,62 @@ namespace Module_11_WPF
                 default:
                     break;
             }
+        }
+        private void ReadListPost()
+        {
+            _listPostDirector = new List<string>() { "Директор", "Заместитель директора" };
+            _listPostHead = new List<string>() { "Глава Департамента", "Заместитель главы департамента" };
+        } 
+        
+        private void CheckEmployee(Department department, bool checkAction)
+        {
+            List<Department> departments = _departmentManagement.GetDepartment();
+            if (checkAction)
+            {
+                if (department == departments[0])
+                {
+                    _windowDirector.FillingListPost(_listPostDirector);
+                }
+                else
+                {
+                    _windowDirector.FillingListPost(_listPostHead);
+                }
+            }
+            else
+            {
+                if (department == departments[0])
+                {
+                    CheckPost(department, _listPostDirector);
+                }
+                else
+                {
+                    CheckPost(department, _listPostHead);
+                }
+            }
             
+        }
+        private void CheckPost(Department department, List<string> listPostHeads)
+        {
+            IEnumerable<Employee> heads = from employee in _employeeManagement.GetEmployees()
+                                          where employee.IdDepartment == department.IdDepartment
+                                          where employee.ToString() == "Module_11_WPF.Director"
+                                          select employee;
+            foreach (var head in heads)
+            {
+                if (listPostHeads.Contains(head.Post))
+                {
+                    listPostHeads.Remove(head.Post);
+                }
+            }
+            _windowDirector.FillingListPost(listPostHeads);
         }
         private void EventNewDirector(object sender, EventArgs e)
         {
             string name = _windowDirector.NameDirector;
             string surmane = _windowDirector.Surname;
+            string post = _windowDirector.Post;
             uint age = _windowDirector.Age;
-            _employeeManagement.NewDirektor(name, surmane, age, _idDepartment);
+            _employeeManagement.NewDirektor(name, surmane, age, _idDepartment, post);
         }
         private void EventNewWorker(object sender, EventArgs e)
         {
@@ -232,17 +380,24 @@ namespace Module_11_WPF
                 return;
             }
             Department department = (Department)Menu.SelectedItem;
+            List<Department> departments = _departmentManagement.GetDepartment();
+
+            if (department.NameDepartment == departments[0].NameDepartment)
+            {
+                MesegeBoxInformational("Невозможно удалить компанию");
+                return;
+            }
 
             uint idDepartment;
 
             idDepartment = department.IdDepartment;
-            
+
             int count = _employeeManagement.GetCountEmployee(idDepartment);
 
 
             if (count != 0)
             {
-                MesegeBoxInformational("В депортаме остались сотрудники, переведите или увольте их.");
+                MesegeBoxInformational("В депортаме остались сотрудники.");
                 return;
             }
             _departmentManagement.DelateDepartment(department);
@@ -277,7 +432,7 @@ namespace Module_11_WPF
             {
                 MesegeBoxInformational("Выбирете департамент");
                 return;
-            }   
+            }
             _windowDepartmEdit = new WindowDepartmEdit((Department)Menu.SelectedItem, _departmentManagement.GetDepartment());
             _windowDepartmEdit.DelegatDeleteDepartment += EventDelateDepartment;
             _windowDepartmEdit.ShowDialog();
@@ -288,19 +443,33 @@ namespace Module_11_WPF
         }
         private void EventRecordDepartment(object sender, EventArgs e)
         {
-            ObservableCollection<Department> departments = _departmentManagement.GetDepartment();
-            departments.Add(_windowDepartmEdit.RecorgDepartment);
+            List<Department> departments = _departmentManagement.GetDepartment();
+            departments[0].Departments.Add(_windowDepartmEdit.RecorgDepartment);
         }
 
         private void Button_EmployeeTransfer(object sender, RoutedEventArgs e)
         {
-            if (ListEmployee.SelectedItem == null)
+            Employee employee = (Employee)ListEmployee.SelectedItem;
+            if (employee == null)
             {
                 MesegeBoxInformational("Выбирите сотрудника");
                 return;
             }
-            _windowEmployeeTransfer = new WindowEmployeeTransfer((Employee)ListEmployee.SelectedItem, _departmentManagement.GetDepartment(), _employeeManagement.GetEmployees());
+
+            if (employee.IdDepartment == 1)
+            {
+                MesegeBoxInformational("Главу и заместителя главы компании невозможно перевести");
+                return;
+            }
+            _windowEmployeeTransfer = new WindowEmployeeTransfer(employee, _departmentManagement.GetDepartment(), _employeeManagement.GetEmployees());
             _windowEmployeeTransfer.ShowDialog();
+            RefreshList();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            SerializationJSON serelase = new SerializationJSON();
+            serelase.Serelase(_departmentManagement.GetDepartment(), _employeeManagement.GetEmployees());
         }
     }
 

@@ -60,6 +60,7 @@ namespace Module_11_WPF
             workingHours.Text = Convert.ToString(worker.WorkingHours);
             hourlyPayment.Text = Convert.ToString(worker.HourlyPayment);
             _id = worker.Id;
+            _idDepartment = worker.IdDepartment;
         }
 
         public bool EditResult { get; set; }
@@ -69,6 +70,8 @@ namespace Module_11_WPF
         public uint Age { get { return _age; } set { _age = value; } }
         public uint Id { get { return _id; } }
         public uint WorkingHours { get { return _workingHours; } set { _workingHours = value; } }
+        public uint IdDepartment { get { return _idDepartment; } set { _idDepartment = value; } }
+
         public uint HourlyPayment 
         { 
             get 
@@ -89,5 +92,6 @@ namespace Module_11_WPF
         private uint _id;
         private uint _workingHours;
         private uint _hourlyPayment;
+        private uint _idDepartment;
     }
 }

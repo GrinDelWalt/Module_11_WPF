@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Module_11_WPF"
         mc:Ignorable="d"
-        Title="EditorDirector" Height="130" Width="300">
-    <Grid  VerticalAlignment="Top">
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" Text="Имя" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,33,0,0" Text="Фамилия" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" Text="Возраст" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox x:Name="nameDirector" HorizontalAlignment="Left" Margin="95,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
-        <TextBox x:Name="surname" HorizontalAlignment="Left" Margin="95,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
-        <TextBox x:Name="age" HorizontalAlignment="Left" Margin="95,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
-        <Button Content="Ввод" HorizontalAlignment="Center" Margin="0,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.022,-0.125" Width="112" Click="Button_Click"/>
+        Title="EditorDirector" Height="200" Width="300">
+    <Grid  VerticalAlignment="Center" Height="184">
+
+        <TextBlock HorizontalAlignment="Left" Margin="10,20,0,0" Text="Имя" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,43,0,0" Text="Фамилия" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,66,0,0" Text="Возраст" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="nameDirector" Margin="95,20,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="surname" Margin="95,43,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="age" Margin="95,66,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button Content="Ввод" HorizontalAlignment="Center" Margin="0,0,0,20" RenderTransformOrigin="-0.022,-0.125" Width="112" Click="Button_Click" Height="20" VerticalAlignment="Bottom"/>
+        <ComboBox x:Name="listPost" Margin="95,89,10,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Должность"/></TextBlock>
     </Grid>
 </Window>

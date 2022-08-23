@@ -21,10 +21,10 @@ namespace Module_11_WPF
     public partial class WindowEmployeeTransfer : Window
     {
         private Employee _employee;
-        private ObservableCollection<Department> _departmens;
+        private List<Department> _departmens;
         private ObservableCollection<Employee> _employees;
         private uint _idDepartment;
-        public WindowEmployeeTransfer(Employee employee, ObservableCollection<Department> departments, ObservableCollection<Employee> employees)
+        public WindowEmployeeTransfer(Employee employee, List<Department> departments, ObservableCollection<Employee> employees)
         {
             _employee = employee;
             _employees = employees;
@@ -40,27 +40,39 @@ namespace Module_11_WPF
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Department departmentSelected = (Department)ListDepartments.SelectedItem;
-            uint idDepartment = departmentSelected.IdDepartment;
-            _idDepartment = idDepartment;
+            if (GetListEmployee(departmentSelected.IdDepartment))
+            {
+                MesegeBoxInformational($"В этом департаменте есть {_employee.Post}");
+                return;
+            }
+            if (departmentSelected.IdDepartment == 1)
+            {
+                MesegeBoxInformational("В управление компании нет такой должности");
+                return;
+            }
+            ChackDepartment();
+            _idDepartment = departmentSelected.IdDepartment;
             IEnumerable<Employee> employeesSort = _employees.Where(Sorting);
-            ChackDerector(employeesSort);
             DialogResult = true;
         }
-        private void ChackDerector(IEnumerable<Employee> employees)
+
+        private bool GetListEmployee(uint idDepartment)
         {
-            if (_employee.Post == "Директор")
+            bool result = false;
+            IEnumerable<Employee> employees = from employee in _employees
+                                              where employee.IdDepartment == idDepartment
+                                              where employee.ToString() == "Module_11_WPF.Director"
+                                              select employee;
+            foreach (var item in employees)
             {
-                foreach (Employee employee in employees)
+                if (item.Post == _employee.Post)
                 {
-                    if (employee.Post == "Директор")
-                    {
-                        MesegeBoxInformational("В этом департаменте есть директор");
-                        return;
-                    }
+                    result = true;
                 }
             }
-            ChackDepartment(); 
+            return result;
         }
+        
         private void ChackDepartment()
         {
             Department department = (Department)ListDepartments.SelectedItem;
@@ -72,10 +84,11 @@ namespace Module_11_WPF
             {
                 if (element == _employee)
                 {
-                    MesegeBoxInformational("Hевозможно перевестись в этот же департамент");
+                    MesegeBoxInformational("Hевозможно перевести в этот же департамент");
                     return;
                 }
             }
+            _idDepartment = idDepartment;
             TransferEmployee();
         }
         private void TransferEmployee()

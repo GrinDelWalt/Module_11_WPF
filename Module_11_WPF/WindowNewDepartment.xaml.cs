@@ -21,9 +21,9 @@ namespace Module_11_WPF
     public partial class WindowNewDepartment : Window
     {
         public EventHandler DelegatWindowDepartment = delegate { };
-        private ObservableCollection<Department> _departments;
+        private List<Department> _departments;
         private Department _departmnet;
-        public WindowNewDepartment(ObservableCollection<Department> departments)
+        public WindowNewDepartment(List<Department> departments)
         {
             _departments = departments;
             InitializeComponent();

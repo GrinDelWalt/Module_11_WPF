@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Module_11_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1050">
+        Title="MainWindow" Height="450" Width="1050" Closing="Window_Closing">
     <Grid>
         <TreeView x:Name="Menu" Initialized="Menu_Initialized" Margin="10,12,632,37" SelectedItemChanged="Menu_SelectedItemChanged">
             <TreeView.ItemTemplate>
@@ -39,9 +39,6 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Width="100">Служебный №</GridViewColumn>
                 </GridView>
             </ListView.View>
-            <ListView.Resources>
-
-            </ListView.Resources>
         </ListView>
         <Button Content="Уволить" HorizontalAlignment="Left" Margin="423,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="59" Click="Button_ClickDeleteEmployee" Height="20" VerticalAlignment="Bottom"/>
         <Button Content="Нанять сотрудника" HorizontalAlignment="Left" Margin="487,0,0,12" RenderTransformOrigin="0.656,-2.588" Width="125" Click="Button_Click_NewEmployee" Height="20" VerticalAlignment="Bottom"/>

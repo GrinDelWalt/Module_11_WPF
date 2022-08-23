@@ -17,5 +17,6 @@ namespace Module_11_WPF
         {
 
         }
+        public override uint Salary { get { return _salary; } set { _salary = value; } }
     }
 }

@@ -12,13 +12,13 @@ namespace Module_11_WPF
         {
 
         }
-        public Director(string name, string surname, uint age, uint id, uint idDepartment) : base(name, surname, age, id, idDepartment)
+        public Director(string name, string surname, uint age, uint id, uint idDepartment, string post) : base(name, surname, age, id, idDepartment)
         {
             _name = name;
             _surnamel = surname;
             _age = age;
             _id = id;
-            _post = "Директор";
+            _post = post;
             _idDepartment = idDepartment;
             _salary = 1300;
         }

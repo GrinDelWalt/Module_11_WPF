@@ -9,7 +9,7 @@
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="229,162,0,0" Text="Название департамента" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"/>
         <TextBox x:Name="NameDepartment" HorizontalAlignment="Left" Margin="236,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TreeView x:Name="ListDepartment" HorizontalAlignment="Left" Width="200" Margin="0,115,0,0" Initialized="ListDepartment_Initialized" SelectedItemChanged="ListDepartment_SelectedItemChanged">
+        <TreeView x:Name="ListDepartment" HorizontalAlignment="Left" Width="200" Margin="0,54,0,0" Initialized="ListDepartment_Initialized" SelectedItemChanged="ListDepartment_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding _departments}">
                     <StackPanel Orientation="Horizontal">
@@ -20,10 +20,8 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <TextBlock HorizontalAlignment="Left" Margin="37,10,0,0" Text="Скисок департаментов" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" 
-                   Text="Для сохранения в определенный департамент выберете этот департамен для сохранения в корень ничего не выбирайте"
-                   TextWrapping="Wrap" VerticalAlignment="Top" Height="79" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Margin="23,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="39" Width="154"><Run Language="ru-ru" Text="Выбор местоположения департамента"/></TextBlock>
+
         <Button Content="Принять" HorizontalAlignment="Left" Margin="271,269,0,0" VerticalAlignment="Top" Click="Button_Click"/>
 
     </Grid>

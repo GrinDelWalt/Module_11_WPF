@@ -32,21 +32,31 @@ namespace Module_11_WPF
 
         private void Button_Click_Director(object sender, RoutedEventArgs e)
         {
+            int countHead = 0; 
             for (int i = 0; i < _employees.Count; i++)
             {
-                if (_employees[i].ToString() == "Module_11_WPF.Director" | _employees == null)
+                if (_employees[i].ToString() == "Module_11_WPF.Director")
                 {
-                    MessageBox.Show(
-                   "В депортамете есть директор",
-                   this.Title,
-                   MessageBoxButton.OK,
-                   MessageBoxImage.Information
-                   );
+                    countHead++;
+                   
+                }
+                if (countHead == 2)
+                {
+                    MessageBoxInformation("В департамете есть управленцы");
                     return;
                 }
             }
             Selection = "Director";
             DialogResult = true;
+        }
+        private void MessageBoxInformation(string text)
+        {
+            MessageBox.Show(
+                  "В депортамете есть директор",
+                  this.Title,
+                  MessageBoxButton.OK,
+                  MessageBoxImage.Information
+                  );
         }
         private void Button_ClickWorker(object sender, RoutedEventArgs e)
         {

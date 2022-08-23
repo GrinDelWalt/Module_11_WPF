@@ -26,38 +26,43 @@ namespace Module_11_WPF
         public EventHandler DelegatRecordDepartment = delegate { };
 
         private Department _department;
-        private ObservableCollection<Department> _departments;
-        public WindowDepartmEdit(Department department, ObservableCollection<Department> departmnens)
+        private List<Department> _departments;
+        public WindowDepartmEdit(Department department, List<Department> departmnens)
         {
             _departments = departmnens;
             _department = department;
             InitializeComponent();
         }
 
-        
+
 
         private void Button_EditLocationDepartment(object sender, RoutedEventArgs e)
         {
             Department department = (Department)listDepartment.SelectedItem;
-            if (listDepartment.SelectedItem == null)
-            {
-                 
-            }
-            if (_department == department)
-            {
-                MesegeBoxInformational("Невозможно переместить департамент в этот же департамент");
-                return;
-            }
+
             _department.NameDepartment = nameDepartment.Text;
+            if (_department.NameDepartment != _departments[0].NameDepartment)
+            {
+                if (listDepartment.SelectedItem == null)
+                {
+                    MesegeBoxInformational("Выбирите расположение департамента");
+                    return;
+                }
+                if (_department == department)
+                {
+                    MesegeBoxInformational("Невозможно переместить департамент в этот же департамент");
+                    return;
+                }
+                DepartmnetEdit = _department;
+                department.Departments.Add(_department);
+            }
             ICollectionView dataView =
               CollectionViewSource.GetDefaultView(listDepartment.ItemsSource);
             dataView.Refresh();
-            DepartmnetEdit = _department;
-            department.Departments.Add(_department);
-            DialogResult = true;
 
+            DialogResult = true;
         }
-        
+
         private void MesegeBoxInformational(string text)
         {
             MessageBox.Show(
@@ -76,23 +81,23 @@ namespace Module_11_WPF
                 DelegatDepartmentNameEdit(null, EventArgs.Empty);
             }
         }
-        public Department DepartmnetEdit 
+        public Department DepartmnetEdit
         {
             get { return _departmentEdit; }
-            set 
+            set
             {
                 _departmentEdit = value;
                 DelegatDeleteDepartment(null, EventArgs.Empty);
-            } 
+            }
         }
-        public Department RecorgDepartment 
+        public Department RecorgDepartment
         {
             get { return _recordDepartment; }
-            set 
-            { 
+            set
+            {
                 _recordDepartment = value;
                 DelegatRecordDepartment(null, EventArgs.Empty);
-            } 
+            }
         }
 
         private Department _recordDepartment;
@@ -102,7 +107,10 @@ namespace Module_11_WPF
         private void listDepartment_Initialized(object sender, EventArgs e)
         {
             nameDepartment.Text = _department.NameDepartment;
-            listDepartment.ItemsSource = _departments;
+            if (_department.NameDepartment != _departments[0].NameDepartment)
+            {
+                listDepartment.ItemsSource = _departments;
+            }
         }
     }
 }
