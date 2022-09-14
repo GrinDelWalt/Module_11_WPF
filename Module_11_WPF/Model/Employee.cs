@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module_11_WPF
+namespace Module_11_WPF.Model
 {
     public abstract class Employee
     {
@@ -27,7 +27,7 @@ namespace Module_11_WPF
         public uint Age { get { return _age; } set { _age = value; } }
         public virtual uint Salary { get { return _salary; } set { _salary = value; } }
         public uint Id { get { return _id; } }
-        
+
         protected uint _id;
         protected uint _idDepartment;
         protected string _name;

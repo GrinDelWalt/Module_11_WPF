@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module_11_WPF
+namespace Module_11_WPF.Model
 {
     public class Director : Employee
     {
@@ -22,11 +22,11 @@ namespace Module_11_WPF
             _idDepartment = idDepartment;
             _salary = 1300;
         }
-        
-        public override uint Salary 
-        { 
-            get { return _salary; } 
-            set 
+
+        public override uint Salary
+        {
+            get { return _salary; }
+            set
             {
                 if (value > 1300)
                 {
@@ -36,8 +36,8 @@ namespace Module_11_WPF
                 {
                     _salary = 1300;
                 }
-            } 
+            }
         }
-       
+
     }
 }
