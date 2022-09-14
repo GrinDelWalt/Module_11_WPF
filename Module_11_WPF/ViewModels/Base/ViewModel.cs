@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module_11_WPF.ViewModel.Base
+namespace Module_11_WPF.ViewModels.Base
 {
-    internal class ViewModel : INotifyPropertyChanged, IDisposable
+    class ViewModel : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private bool _desposed;
