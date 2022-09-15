@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Module_11_WPF.Model;
+using Module_11_WPF.Models;
+using Module_11_WPF.Views.DepartmentWindow;
+using Module_11_WPF.Views.EmployeeWindiw;
 
-namespace Module_11_WPF
+namespace Module_11_WPF.Views.Menu
 {
 
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module_11_WPF.Model
+namespace Module_11_WPF.Models
 {
     public class Director : Employee
     {

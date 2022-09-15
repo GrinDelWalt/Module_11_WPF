@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Module_11_WPF
+namespace Module_11_WPF.Views.DepartmentWindow
 {
     /// <summary>
     /// Логика взаимодействия для WindowDepartment.xaml

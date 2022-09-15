@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Module_11_WPF.Model;
+using Module_11_WPF.Models;
 
-namespace Module_11_WPF
+namespace Module_11_WPF.Views.EmployeeWindiw
 {
     /// <summary>
     /// Логика взаимодействия для NewWorker.xaml

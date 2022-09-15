@@ -4,20 +4,27 @@ namespace Module_11_WPF.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
-        private string _title = "Test";
         /// <summary>
         /// Заголовок Окна
         /// </summary>
         public string Title
         {
             get => _title;
+            set => Set(ref _title, value);
             //set
             //{
             //    //if (Equals(_title, value)) return;
             //    //_title = value;
             //    //OnPropertyChanget();
             //}
-            set => Set(ref _title, value);
         }
+        public string StatusProgram
+        {
+            get => _statusProgram;
+            set => Set(ref _statusProgram, value);
+        }
+
+        private string _statusProgram = "Гогов!";
+        private string _title = "Test";
     }
 }

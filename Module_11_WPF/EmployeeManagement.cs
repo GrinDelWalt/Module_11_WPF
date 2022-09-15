@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using Module_11_WPF.Model;
+using Module_11_WPF.Models;
 
 namespace Module_11_WPF
 {
