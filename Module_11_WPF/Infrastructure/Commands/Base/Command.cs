@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Module_11_WPF.Infrastructure.Commands.Base
@@ -15,14 +11,10 @@ namespace Module_11_WPF.Infrastructure.Commands.Base
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract bool CanExecute(object parameter);
 
-        public void Execute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
+
+        public abstract void Execute(object parameter);
+        
     }
 }

@@ -1,4 +1,7 @@
-﻿using Module_11_WPF.ViewModels.Base;
+﻿using Module_11_WPF.Infrastructure.Commands;
+using Module_11_WPF.ViewModels.Base;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Module_11_WPF.ViewModels
 {
@@ -26,5 +29,17 @@ namespace Module_11_WPF.ViewModels
 
         private string _statusProgram = "Гогов!";
         private string _title = "Test";
+
+        public ICommand CloseApplicationCommand { get; }
+
+        private bool CanCloseApplicationCommandExecuted(object p) => true;
+        private void OnCloseApplicationCommandExecuted(object p)
+        {
+            Application.Current.Shutdown();
+        }
+        public MainWindowViewModel()
+        {
+            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
+        }
     }
 }
