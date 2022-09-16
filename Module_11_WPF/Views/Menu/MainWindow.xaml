@@ -14,16 +14,10 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <TreeView x:Name="Menu" Initialized="Menu_Initialized" Margin="10,12,0,37" SelectedItemChanged="Menu_SelectedItemChanged" HorizontalAlignment="Left" Width="408">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding _departments}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="TextId" Text="{Binding IdDepartment}" Foreground="Green"/>
-                        <TextBlock Text="   "/>
-                        <TextBlock Text="{Binding NameDepartment}"/>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+        <TreeView x:Name="Menu" Margin="10,12,0,37" HorizontalAlignment="Left" Width="408"
+                  ItemsSource="{Binding Departments}"
+                  DisplayMemberPath="NameDepartmens">
+            
         </TreeView>
         <ListView x:Name="ListEmployee" 
                   Margin="423,12,0,37" 

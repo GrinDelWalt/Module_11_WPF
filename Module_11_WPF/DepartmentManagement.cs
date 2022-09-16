@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Module_11_WPF.Models;
 
 namespace Module_11_WPF
 {

@@ -11,8 +11,12 @@ namespace Module_11_WPF
 {
     class DeserializationJSON
     {
+        private readonly string _json;
         DepartmentManagement _departmentManagement;
         EmployeeManagement _employeeManagement;
+        private List<List<object>> _listWorker;
+        private List<List<object>> _listItern;
+        private List<List<object>> _listDirector;
         public DeserializationJSON()
         {
             _departmentManagement = new DepartmentManagement();
@@ -98,107 +102,6 @@ namespace Module_11_WPF
                 _departmentManagement.NewDepartment(located, name);
             }
         }
-        //    public void JSONRead()
-        //    {
-        //        string json = File.ReadAllText("C:/Users/Гоша/Desktop/С#/WorkerJson.json");
-        //        char key = 'д';
-        //        do
-        //        {
-        //            Print("Введите путь к файлу");
-        //            string path = ExceptionsString();
-        //            bool result = File.Exists(path);
-
-        //            if (true == result)
-        //            {
-        //                string json = File.ReadAllText(path);
-
-        //                var dep = JObject.Parse(json)["company"].ToArray();
-
-        //                int id = 0;
-        //                foreach (var e in dep)
-        //                {
-        //                    int tempNumberDep = this.dep.Count;
-        //                    string[] data = new string[2];
-
-        //                    data[0] = e["NameDep"].ToString();
-        //                    data[1] = e["Data"].ToString();
-        //                    string stringIdEmployee = e["id_Workers"].ToString();
-        //                    string[] separators = { ",", ".", "!", "?", ";", ":", " " };                                //конвертация строки в масив чисел
-        //                    string[] arrayStringIdEmployee = stringIdEmployee.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-        //                    List<int> intIdEmployee = new List<int>();
-        //                    for (int d = 0; d < arrayStringIdEmployee.Length; d++)
-        //                    {
-        //                        intIdEmployee.Add(Convert.ToInt32(arrayStringIdEmployee[d]));                           //запись колекции чисел
-        //                    }
-        //                    List<uint> initializerList = new List<uint>();
-        //                    initializerList.Add(1_000_001);
-        //                    List<int> initializerList = new List<int>();
-        //                    initializerList.Add(-1);
-        //                    AddDep(new Department(data[0], DateTime.Parse(data[1]), Convert.ToUInt32(tempNumberDep + 1), initializerList));
-        //                    int idDep = tempNumberDep + 1;
-
-        //                    string worker = Convert.ToString(dep[id]);
-        //                    var employee = JObject.Parse(worker)["workers"].ToArray();
-
-        //                    if (intIdEmployee[0] != 1_000_001)
-        //                        if (intIdEmployee[0] != -1)
-        //                        {
-        //                            foreach (var item in employee)
-        //                            {
-        //                                int index = idDep;
-        //                                //Количество рабочих в базе
-        //                                object idWorker = this.workers.Count;
-        //                                if (idWorker == null)
-        //                                {
-        //                                    this.index = 0;
-        //                                }
-        //                                else
-        //                                {
-        //                                    this.index = Convert.ToUInt32(idWorker);
-        //                                    this.index = Convert.ToInt32(idWorker);
-        //                                }
-
-        //                                string[] arrayEmployee = new string[5];
-
-        //                                arrayEmployee[0] = item["Surname"].ToString();
-
-        //                                arrayEmployee[1] = item["Name"].ToString();
-
-        //                                arrayEmployee[2] = item["Age"].ToString();
-
-        //                                arrayEmployee[3] = item["Projeck"].ToString();
-
-        //                                arrayEmployee[4] = item["Salari"].ToString();
-
-        //                                AddWorker(new Worker(arrayEmployee[1], arrayEmployee[0], Convert.ToUInt32(arrayEmployee[2]), Convert.ToUInt32(arrayEmployee[4]), Convert.ToUInt32(arrayEmployee[3]), this.index, Convert.ToUInt32(index)));
-        //                                AddWorker(new Worker(arrayEmployee[1], arrayEmployee[0], Convert.ToUInt32(arrayEmployee[2]), Convert.ToUInt32(arrayEmployee[4]), Convert.ToUInt32(arrayEmployee[3]), Convert.ToUInt32(this.index), Convert.ToUInt32(index)));
-
-        //                                List<uint> idList = new List<uint>();
-        //                                if (this.dep[index - 1].Id[0] == 1_000_001)
-        //                                    List<int> idList = new List<int>();
-        //                                if (this.dep[index - 1].Id[0] == -1)
-        //                                {
-        //                                    this.dep[index - 1].Id[0] = this.index;
-        //                                }
-        //                                else
-        //                                {
-        //                                    this.dep[index - 1].AddId(this. );
-        //                                }
-        //                                int countId = this.dep[index - 1].Id.Count;
-        //                                idList.Add(this.index + 1);
-        //                            }
-        //                        }
-        //                    id++;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                Print("неверный путь к файлу");
-        //            }
-
-        //            Print("Повторить ввод? д/н");
-        //            key = Console.ReadKey(true).KeyChar;
-        //        } while (char.ToLower(key) == 'д');
-        //    }
+        
     }
 }

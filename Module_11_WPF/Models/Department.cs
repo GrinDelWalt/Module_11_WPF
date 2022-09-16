@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module_11_WPF
+namespace Module_11_WPF.Models
 {
     public class Department
     {
@@ -49,7 +49,7 @@ namespace Module_11_WPF
         public void NewDepartment(string locatedName, string nameDepartment)
         {
             Department department;
-            if (locatedName==null)
+            if (locatedName == null)
             {
                 NewDepartment(nameDepartment);
                 return;
@@ -75,10 +75,10 @@ namespace Module_11_WPF
             }
             return null;
         }
-        public List<Department> Departments { get { return this._departments; } set { this._departments = value; } }
-        public string NameDepartment { get { return this._nameDepartment; } set { this._nameDepartment = value; } }
+        public List<Department> Departments { get { return _departments; } set { _departments = value; } }
+        public string NameDepartment { get { return _nameDepartment; } set { _nameDepartment = value; } }
         public uint IdDepartment { get { return _idDepartment; } }
-        public uint NumberOfMamagedDepartments { get { return this._numberOfMamagedDepartments; } set { this._numberOfMamagedDepartments = value; } }
+        public uint NumberOfMamagedDepartments { get { return _numberOfMamagedDepartments; } set { _numberOfMamagedDepartments = value; } }
 
         private static uint _staticId;
         private uint _idDepartment;
