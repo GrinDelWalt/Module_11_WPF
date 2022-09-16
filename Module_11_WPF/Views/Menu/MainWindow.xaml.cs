@@ -59,12 +59,12 @@ namespace Module_11_WPF.Views.Menu
             string text = buttonText.Content.ToString();
         }
 
-        private void Menu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            Department department = (Department)e.NewValue;
-            _idDepartment = department.IdDepartment;
-            ListEmployee.ItemsSource = _employeeManagement.GetEmployees().Where(fildEmployee);
-        }
+        //private void Menu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
+        //    Department department = (Department)e.NewValue;
+        //    _idDepartment = department.IdDepartment;
+        //    ListEmployee.ItemsSource = _employeeManagement.GetEmployees().Where(fildEmployee);
+        //}
         private bool fildEmployee(Employee employee)
         {
             return employee.IdDepartment == _idDepartment;
