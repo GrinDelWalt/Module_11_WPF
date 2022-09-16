@@ -39,8 +39,8 @@ namespace Module_11_WPF.Views.Menu
             DeserializationJSON deserialization = new DeserializationJSON();
             deserialization.DeserializJSON();
 
-            _employeeManagement = deserialization.GetEmployeeManagement();
-            _departmentManagement = deserialization.GetDepartmentManagement();
+            //_employeeManagement = deserialization.GetEmployeeManagement();
+            //_departmentManagement = deserialization.GetDepartmentManagement();
             //_departmentManagement.Test();
             //_employeeManagement.Test();
 

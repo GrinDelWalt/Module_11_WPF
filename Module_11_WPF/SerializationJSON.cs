@@ -35,7 +35,7 @@ namespace Module_11_WPF
 
             foreach (var department in departments)
             {
-                JObject dep = GetDepartmenJOSN(department, located);
+                JObject dep = GetDepartmenJosn(department, located);
                 _departmens.Add(dep);
                 if (department.Departments.Count != 0)
                 {
@@ -43,7 +43,7 @@ namespace Module_11_WPF
                 }
             }
         }
-        private JObject GetDepartmenJOSN(Department department, string lacated)
+        private JObject GetDepartmenJosn(Department department, string lacated)
         {
             JObject dep = new JObject
             {
@@ -65,7 +65,7 @@ namespace Module_11_WPF
                 switch (type.Name)
                 {
                     case "Director":
-                        employeeJSON = GetDirectorJSON((Director)employee);
+                        employeeJSON = GetDirectorJson((Director)employee);
                         break;
                     case "Worker":
                         employeeJSON = GetWorkerJSON((Worker)employee);
@@ -114,7 +114,7 @@ namespace Module_11_WPF
             return worker;
         }
 
-        private JObject GetDirectorJSON(Director employee)
+        private JObject GetDirectorJson(Director employee)
         {
             JObject director = new JObject
             {

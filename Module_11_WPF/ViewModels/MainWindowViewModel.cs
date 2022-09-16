@@ -1,12 +1,32 @@
-﻿using Module_11_WPF.Infrastructure.Commands;
+﻿using System.Collections.Generic;
+using Module_11_WPF.Infrastructure.Commands;
+using Module_11_WPF.Models;
 using Module_11_WPF.ViewModels.Base;
+using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Module_11_WPF.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
+        private List<Department> _departments;
+
+        public List<Department> Departments
+        {
+            get => _departments;
+            set => Set(ref _departments, value);
+        }
+
+
+        private ObservableCollection<Employee> _employees;
+
+        public ObservableCollection<Employee> Employees
+        {
+            get => Employees;
+            set => Set(ref _employees, value);
+        }
         /// <summary>
         /// Заголовок Окна
         /// </summary>
@@ -37,9 +57,14 @@ namespace Module_11_WPF.ViewModels
         {
             Application.Current.Shutdown();
         }
+
         public MainWindowViewModel()
         {
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
+            EmployeeManagement management = new EmployeeManagement();
+            Employees = management.GetEmployees();
+            DepartmentManagement department = new DepartmentManagement();
+            Departments = department.GetDepartment();
         }
     }
 }
