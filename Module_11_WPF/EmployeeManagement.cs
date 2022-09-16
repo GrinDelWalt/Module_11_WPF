@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -41,34 +42,36 @@ namespace Module_11_WPF
         }
         private void EditEventEmployee(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            Employee employee;
-            uint id = 0;
-            object[] employeeObject = new object[1];
+            object employeeObject = null;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    employeeObject = (object[])e.NewItems.SyncRoot;
-                    employee = (Employee)employeeObject[0];
-                    id = employee.IdDepartment;
-                    _idDepartment = id;
-                    EditSalary(employee);
+                    employeeObject = (object)e.NewItems.SyncRoot;
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    employeeObject = (object[])e.OldItems.SyncRoot;
-                    employee = (Employee)employeeObject[0];
-                    id = employee.IdDepartment;
-                    _idDepartment = id;
-                    EditSalary(employee);
+                    employeeObject = (object)e.OldItems.SyncRoot;
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    employeeObject = (object[])e.NewItems.SyncRoot;
-                    employee = (Employee)employeeObject[0];
-                    id = employee.IdDepartment;
-                    _idDepartment = id;
-                    EditSalary(employee);
+                    employeeObject = (object)e.NewItems.SyncRoot;
                     break;
             }
+            EditSalary(employeeObject);
+        }
 
+        private void EditSalary(object employeesObject)
+        {
+            try
+            {
+                CalculationSalaryHead calc = new CalculationSalaryHead(_employees);
+                Employee employee = (Employee)employeesObject;
+                calc.EditSalary(employee);
+                _employees = calc.GetEmployees();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
         public int GetCountEmployee(uint idDepartment)
         {
@@ -126,93 +129,6 @@ namespace Module_11_WPF
             Employee employee = value.ToList()[0];
             int index = _employees.IndexOf(employee);
             return index;
-        }
-        private void EditSalary(Employee employeeEditSalary)
-        {
-            int index = _employees.IndexOf(employeeEditSalary);
-            EditSalaryDeputyHeadDepartment(employeeEditSalary, index);
-            EditSalaryHeadDepartment(employeeEditSalary, index);
-            EditSalaryDeputyDirector(index);
-            EditSalaryDirector(index);
-        }
-
-        private void EditSalaryDeputyHeadDepartment(Employee employeeEditSalary, int index)
-        {
-            IEnumerable<Employee> employees = from employee in _employees
-                                              where employee.IdDepartment == employeeEditSalary.IdDepartment
-                                              where employee.Post != "Глава Департамента"
-                                              where employee.Post != "Заместитель главы департамента"
-                                              select employee;
-
-            IEnumerable<Employee> director = SerchHeadDepartment(employeeEditSalary, "Заместитель главы департамента");
-            foreach (var element in director)
-            {
-                element.Salary = CalculationSalary(employees);
-            }
-        }
-        private void EditSalaryHeadDepartment(Employee employeeEditSalary, int index)
-        {
-            IEnumerable<Employee> employees = from employee in _employees
-                                              where employee.IdDepartment == employeeEditSalary.IdDepartment
-                                              where employee.Post != "Глава Департамента"
-                                              select employee;
-            IEnumerable<Employee> director = SerchHeadDepartment(employeeEditSalary, "Глава Департамента");
-            foreach (var element in director)
-            {
-                element.Salary = CalculationSalary(employees);
-            }
-        }
-        private IEnumerable<Employee> SerchHeadDepartment(Employee employeeSelectid, string post)
-        {
-            IEnumerable<Employee> director = from employee in _employees
-                                             where employee.IdDepartment == employeeSelectid.IdDepartment
-                                             where employee.Post == post
-                                             select employee;
-            return director;
-        }
-        private void EditSalaryDeputyDirector(int index)
-        {
-            IEnumerable<Employee> employees = from employee in _employees
-                                              where employee.Post != "Директор"
-                                              where employee.Post != "Заместитель директора"
-                                              select employee;
-            IEnumerable<Employee> director = SerchDirector("Заместитель директора");
-            foreach (var element in director)
-            {
-                element.Salary = CalculationSalary(employees);
-            }
-        }
-
-
-        private void EditSalaryDirector(int index)
-        {
-            IEnumerable<Employee> employees = from employee in _employees
-                                              where employee.Post != "Директор"
-                                              select employee;
-            IEnumerable<Employee> director = SerchDirector("Директор");
-            foreach (var element in director)
-            {
-                element.Salary = CalculationSalary(employees);
-            }
-        }
-        private IEnumerable<Employee> SerchDirector( string post)
-        {
-            IEnumerable<Employee> director = from employee in _employees
-                                             where employee.Post == post
-                                             select employee;
-            return director;
-        }
-        private uint CalculationSalary(IEnumerable<Employee> employees)
-        {
-            uint sumSalary = 0;
-
-            foreach (Employee item in employees)
-            {
-                sumSalary += item.Salary;
-            }
-            double sum = 0.15 * sumSalary;
-            sumSalary = (uint)sum;
-            return sumSalary;
         }
         private Director GetDirector(IEnumerable<Employee> employees)
         {
