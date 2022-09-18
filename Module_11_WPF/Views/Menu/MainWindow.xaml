@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Module_11_WPF.ViewModels"
-        Title="{Binding Title}"
+        xmlns:models="clr-namespace:Module_11_WPF.Models"
+
         mc:Ignorable="d"
         MinHeight="200"
         MinWidth="1050"
@@ -14,16 +15,20 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <TreeView x:Name="Menu" Margin="10,12,0,37" HorizontalAlignment="Left" Width="408"
-                  ItemsSource="{Binding Departments}"
-                  DisplayMemberPath="NameDepartmens">
-            
+        <TreeView x:Name="Menu" Margin="10,12,0,37"  HorizontalAlignment="Left" Width="408" >
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding}">
+                    <TextBlock Text="{Binding Departments[0].NameDepartment}" Foreground="Green"/>
+                    <!--<TextBlock Text="   "/>
+                    <TextBlock Text="{Binding NameDepartment}"/>-->
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
         </TreeView>
         <ListView x:Name="ListEmployee" 
                   Margin="423,12,0,37" 
                   HorizontalAlignment="Left" 
                   Width="617" 
-                  ItemsSource="{Binding Employee}" 
+                  ItemsSource="{Binding Employees}" 
                   GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
             <ListView.ContextMenu>
                 <ContextMenu>

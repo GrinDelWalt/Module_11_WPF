@@ -36,8 +36,8 @@ namespace Module_11_WPF.Views.Menu
 
         public MainWindow()
         {
-            DeserializationJSON deserialization = new DeserializationJSON();
-            deserialization.DeserializJSON();
+            //DeserializationJSON deserialization = new DeserializationJSON();
+            //deserialization.DeserializJSON();
 
             //_employeeManagement = deserialization.GetEmployeeManagement();
             //_departmentManagement = deserialization.GetDepartmentManagement();
@@ -48,10 +48,10 @@ namespace Module_11_WPF.Views.Menu
             InitializeComponent();
         }
 
-        private void Menu_Initialized(object sender, EventArgs e)
-        {
-            Menu.ItemsSource = _departmentManagement.GetDepartment();
-        }
+        //private void Menu_Initialized(object sender, EventArgs e)
+        //{
+        //    Menu.ItemsSource = _departmentManagement.GetDepartment();
+        //}
 
         private void ButtonName_Click(object sender, RoutedEventArgs e)
         {
@@ -135,40 +135,40 @@ namespace Module_11_WPF.Views.Menu
                 MesegeBoxInformational("Выбирите сотрудника");
                 return;
             }
-            Department department = (Department)Menu.SelectedItem;
-            EditEmployee(employee, department.IdDepartment);
-            RefreshList();
+            //Department department = (Department)Menu.SelectedItem;
+            //EditEmployee(employee, department.IdDepartment);
+            //RefreshList();
         }
-        public void EditEmployee(object employee, uint idDepartment)
-        {
-            string type = employee.ToString();
-            switch (type)
-            {
-                case "Module_11_WPF.Worker":
-                    _windowWorker = new WindowWorker();
-                    _windowWorker.EditWorker((Worker)employee);
-                    _windowWorker.DelegatWindowWorker += EventEditWorker;
-                    _windowWorker.ShowDialog();
-                    break;
-                case "Module_11_WPF.Director":
-                    _windowDirector = new WindowDirector(idDepartment);
-                    _windowDirector.GetEmployee(_employeeManagement.GetEmployees());
-                    _windowDirector.DelegatWindowDirector += EventEditDirector;
-                    Department department = (Department)Menu.SelectedItem;
-                    CheckEmployee(department, true);
-                    _windowDirector.EditDirector((Director)employee);
-                    _windowDirector.ShowDialog();
-                    break;
-                case "Module_11_WPF.Intern":
-                    _windowIntern = new WindowIntern();
-                    _windowIntern.EditIntern((Intern)employee);
-                    _windowIntern.DelegatIternWindow += EventEditIntern;
-                    _windowIntern.ShowDialog();
-                    break;
-                default:
-                    break;
-            }
-        }
+        //public void EditEmployee(object employee, uint idDepartment)
+        //{
+        //    string type = employee.ToString();
+        //    switch (type)
+        //    {
+        //        case "Module_11_WPF.Worker":
+        //            _windowWorker = new WindowWorker();
+        //            _windowWorker.EditWorker((Worker)employee);
+        //            _windowWorker.DelegatWindowWorker += EventEditWorker;
+        //            _windowWorker.ShowDialog();
+        //            break;
+        //        case "Module_11_WPF.Director":
+        //            _windowDirector = new WindowDirector(idDepartment);
+        //            _windowDirector.GetEmployee(_employeeManagement.GetEmployees());
+        //            _windowDirector.DelegatWindowDirector += EventEditDirector;
+        //            Department department = (Department)Menu.SelectedItem;
+        //            CheckEmployee(department, true);
+        //            _windowDirector.EditDirector((Director)employee);
+        //            _windowDirector.ShowDialog();
+        //            break;
+        //        case "Module_11_WPF.Intern":
+        //            _windowIntern = new WindowIntern();
+        //            _windowIntern.EditIntern((Intern)employee);
+        //            _windowIntern.DelegatIternWindow += EventEditIntern;
+        //            _windowIntern.ShowDialog();
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
         private void EventEditDirector(object sender, EventArgs e)
         {
             if (_windowDirector.EditResult)
@@ -231,36 +231,36 @@ namespace Module_11_WPF.Views.Menu
         }
         private void Button_Click_NewEmployee(object sender, RoutedEventArgs e)
         {
-            if (Menu.SelectedItem != null)
-            {
-                ReadOnlyCollection<object> employee = ListEmployee.ItemContainerGenerator.Items;
-                Department department = (Department)Menu.SelectedItem;
+            //if (Menu.SelectedItem != null)
+            //{
+            //    ReadOnlyCollection<object> employee = ListEmployee.ItemContainerGenerator.Items;
+            //    Department department = (Department)Menu.SelectedItem;
 
-                try
-                {
-                    _idDepartment = department.IdDepartment;
-                    _windowSelection = new WindowSelection(employee);
-                    _windowSelection.DelegatSelectionWindow += EventValueSelectidWindowEmployee;
-                    _windowSelection.ShowDialog();
+            //    try
+            //    {
+            //        _idDepartment = department.IdDepartment;
+            //        _windowSelection = new WindowSelection(employee);
+            //        _windowSelection.DelegatSelectionWindow += EventValueSelectidWindowEmployee;
+            //        _windowSelection.ShowDialog();
 
-                    RefreshList();
-                }
-                catch (Exception error)
-                {
-                    MessageBox.Show(
-                       Convert.ToString(error),
-                       this.Title,
-                       MessageBoxButton.OK,
-                       MessageBoxImage.Information
-                       );
-                    return;
-                }
-            }
-            else
-            {
-                MesegeBoxInformational("Выбирете департамент");
-                return;
-            }
+            //        RefreshList();
+            //    }
+            //    catch (Exception error)
+            //    {
+            //        MessageBox.Show(
+            //           Convert.ToString(error),
+            //           this.Title,
+            //           MessageBoxButton.OK,
+            //           MessageBoxImage.Information
+            //           );
+            //        return;
+            //    }
+            //}
+            //else
+            //{
+            //    MesegeBoxInformational("Выбирете департамент");
+            //    return;
+            //}
         }
         private void EventValueSelectidWindowEmployee(object sender, EventArgs e)
         {
@@ -268,30 +268,30 @@ namespace Module_11_WPF.Views.Menu
         }
         private void StartWindowNewEmployee(string resultSelectid)
         {
-            switch (resultSelectid)
-            {
-                case "Director":
-                    Department department = (Department)Menu.SelectedItem;
-                    _windowDirector = new WindowDirector(department.IdDepartment);
-                    _windowDirector.DelegatWindowDirector += EventNewDirector;
-                    _windowDirector.GetEmployee(_employeeManagement.GetEmployees());
-                    CheckEmployee(department, false);
-                    _windowDirector.ShowDialog();
+            //switch (resultSelectid)
+            //{
+            //    case "Director":
+            //        Department department = (Department)Menu.SelectedItem;
+            //        _windowDirector = new WindowDirector(department.IdDepartment);
+            //        _windowDirector.DelegatWindowDirector += EventNewDirector;
+            //        _windowDirector.GetEmployee(_employeeManagement.GetEmployees());
+            //        CheckEmployee(department, false);
+            //        _windowDirector.ShowDialog();
 
-                    break;
-                case "Worker":
-                    _windowWorker = new WindowWorker();
-                    _windowWorker.DelegatWindowWorker += EventNewWorker;
-                    _windowWorker.ShowDialog();
-                    break;
-                case "Intern":
-                    _windowIntern = new WindowIntern();
-                    _windowIntern.DelegatIternWindow += EventNewIntern;
-                    _windowIntern.ShowDialog();
-                    break;
-                default:
-                    break;
-            }
+            //        break;
+            //    case "Worker":
+            //        _windowWorker = new WindowWorker();
+            //        _windowWorker.DelegatWindowWorker += EventNewWorker;
+            //        _windowWorker.ShowDialog();
+            //        break;
+            //    case "Intern":
+            //        _windowIntern = new WindowIntern();
+            //        _windowIntern.DelegatIternWindow += EventNewIntern;
+            //        _windowIntern.ShowDialog();
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
         private void ReadListPost()
         {
@@ -376,33 +376,33 @@ namespace Module_11_WPF.Views.Menu
 
         private void Button_DelateDepartment(object sender, RoutedEventArgs e)
         {
-            if (null == Menu.SelectedItem)
-            {
-                MesegeBoxInformational("Выбирете департамент");
-                return;
-            }
-            Department department = (Department)Menu.SelectedItem;
-            List<Department> departments = _departmentManagement.GetDepartment();
+            //if (null == Menu.SelectedItem)
+            //{
+            //    MesegeBoxInformational("Выбирете департамент");
+            //    return;
+            //}
+            //Department department = (Department)Menu.SelectedItem;
+            //List<Department> departments = _departmentManagement.GetDepartment();
 
-            if (department.NameDepartment == departments[0].NameDepartment)
-            {
-                MesegeBoxInformational("Невозможно удалить компанию");
-                return;
-            }
+            //if (department.NameDepartment == departments[0].NameDepartment)
+            //{
+            //    MesegeBoxInformational("Невозможно удалить компанию");
+            //    return;
+            //}
 
-            uint idDepartment;
+            //uint idDepartment;
 
-            idDepartment = department.IdDepartment;
+            //idDepartment = department.IdDepartment;
 
-            int count = _employeeManagement.GetCountEmployee(idDepartment);
+            //int count = _employeeManagement.GetCountEmployee(idDepartment);
 
 
-            if (count != 0)
-            {
-                MesegeBoxInformational("В депортаме остались сотрудники.");
-                return;
-            }
-            _departmentManagement.DelateDepartment(department);
+            //if (count != 0)
+            //{
+            //    MesegeBoxInformational("В депортаме остались сотрудники.");
+            //    return;
+            //}
+            //_departmentManagement.DelateDepartment(department);
         }
         private void MesegeBoxInformational(string text)
         {
@@ -416,12 +416,12 @@ namespace Module_11_WPF.Views.Menu
 
         private void Button_NewDepartment(object sender, RoutedEventArgs e)
         {
-            _windowDepartment = new WindowNewDepartment(_departmentManagement.GetDepartment());
-            _windowDepartment.DelegatWindowDepartment += EventNewDepartment;
-            _windowDepartment.ShowDialog();
-            ICollectionView dataView =
-              CollectionViewSource.GetDefaultView(Menu.ItemsSource);
-            dataView.Refresh();
+            //_windowDepartment = new WindowNewDepartment(_departmentManagement.GetDepartment());
+            //_windowDepartment.DelegatWindowDepartment += EventNewDepartment;
+            //_windowDepartment.ShowDialog();
+            //ICollectionView dataView =
+            //  CollectionViewSource.GetDefaultView(Menu.ItemsSource);
+            //dataView.Refresh();
         }
         private void EventNewDepartment(object sender, EventArgs e)
         {
@@ -430,14 +430,14 @@ namespace Module_11_WPF.Views.Menu
 
         private void Button_EditDepartment(object sender, RoutedEventArgs e)
         {
-            if (Menu.SelectedItem == null)
-            {
-                MesegeBoxInformational("Выбирете департамент");
-                return;
-            }
-            _windowDepartmEdit = new WindowDepartmEdit((Department)Menu.SelectedItem, _departmentManagement.GetDepartment());
-            _windowDepartmEdit.DelegatDeleteDepartment += EventDelateDepartment;
-            _windowDepartmEdit.ShowDialog();
+            //if (Menu.SelectedItem == null)
+            //{
+            //    MesegeBoxInformational("Выбирете департамент");
+            //    return;
+            //}
+            //_windowDepartmEdit = new WindowDepartmEdit((Department)Menu.SelectedItem, _departmentManagement.GetDepartment());
+            //_windowDepartmEdit.DelegatDeleteDepartment += EventDelateDepartment;
+            //_windowDepartmEdit.ShowDialog();
         }
         private void EventDelateDepartment(object sender, EventArgs e)
         {

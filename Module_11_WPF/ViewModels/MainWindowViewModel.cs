@@ -11,36 +11,21 @@ namespace Module_11_WPF.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
-        private List<Department> _departments;
-
-        public List<Department> Departments
-        {
-            get => _departments;
-            set => Set(ref _departments, value);
-        }
-
+       
+        public List<Department> Departments { get; set; }
+        
 
         private ObservableCollection<Employee> _employees;
 
         public ObservableCollection<Employee> Employees
         {
-            get => Employees;
+            get => _employees;
             set => Set(ref _employees, value);
         }
         /// <summary>
         /// Заголовок Окна
         /// </summary>
-        public string Title
-        {
-            get => _title;
-            set => Set(ref _title, value);
-            //set
-            //{
-            //    //if (Equals(_title, value)) return;
-            //    //_title = value;
-            //    //OnPropertyChanget();
-            //}
-        }
+        
         public string StatusProgram
         {
             get => _statusProgram;
@@ -60,11 +45,13 @@ namespace Module_11_WPF.ViewModels
 
         public MainWindowViewModel()
         {
-            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
             EmployeeManagement management = new EmployeeManagement();
             Employees = management.GetEmployees();
+            management.Test();
             DepartmentManagement department = new DepartmentManagement();
+            department.Test();
             Departments = department.GetDepartment();
+            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Module_11_WPF
         {
             _idEmployee = 0;
         }
-        private static uint NextId()
+        public static uint NextId()
         {
             return ++_idEmployee;
         }
@@ -42,28 +42,30 @@ namespace Module_11_WPF
         }
         private void EditEventEmployee(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            object employeeObject = null;
+            object[] employeeObject = null;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    employeeObject = (object)e.NewItems.SyncRoot;
+                    employeeObject = (object[])e.NewItems.SyncRoot;
+                    EditSalary(employeeObject);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    employeeObject = (object)e.OldItems.SyncRoot;
+                    employeeObject = (object[])e.OldItems.SyncRoot;
+                    EditSalary(employeeObject);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    employeeObject = (object)e.NewItems.SyncRoot;
+                    employeeObject = (object[])e.NewItems.SyncRoot;
+                    EditSalary(employeeObject);
                     break;
             }
-            EditSalary(employeeObject);
         }
 
-        private void EditSalary(object employeesObject)
+        private void EditSalary(object[] employeesObject)
         {
             try
             {
                 CalculationSalaryHead calc = new CalculationSalaryHead(_employees);
-                Employee employee = (Employee)employeesObject;
+                Employee employee = (Employee)employeesObject[0];
                 calc.EditSalary(employee);
                 _employees = calc.GetEmployees();
             }

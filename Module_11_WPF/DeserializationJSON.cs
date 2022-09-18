@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Module_11_WPF.Models;
 
 namespace Module_11_WPF
 {
@@ -14,13 +15,14 @@ namespace Module_11_WPF
         private readonly string _json;
         DepartmentManagement _departmentManagement;
         EmployeeManagement _employeeManagement;
-        private List<List<object>> _listWorker;
-        private List<List<object>> _listItern;
-        private List<List<object>> _listDirector;
+        private ObservableCollection<Employee> _employees;
+        
         public DeserializationJSON()
         {
             _departmentManagement = new DepartmentManagement();
             _employeeManagement = new EmployeeManagement();
+            _employees = new ObservableCollection<Employee>();
+            _json = File.ReadAllText("company.json");
         }
         public DepartmentManagement GetDepartmentManagement()
         {
@@ -32,9 +34,8 @@ namespace Module_11_WPF
         }
         public void DeserializJSON()
         {
-            string json = File.ReadAllText("company.json");
-            DeserializDepartment(json);
-            DeserializEmaployee(json);
+            DeserializDepartment(_json);
+            DeserializEmaployee(_json);
         }
 
         private void DeserializEmaployee(string json)
@@ -67,7 +68,7 @@ namespace Module_11_WPF
             uint salary = Convert.ToUInt32(employee["Salary"]);
             uint idDepartment = Convert.ToUInt32(employee["Id Department"]);
 
-            _employeeManagement.NewIntern(name, surname, idDepartment, age, salary);
+            _employees.Add(new Intern(name, surname, idDepartment, age, salary, EmployeeManagement.NextId()));
         }
         private void DeserializWorker(JToken employee)
         {
@@ -79,7 +80,7 @@ namespace Module_11_WPF
             uint workingHours = Convert.ToUInt32(employee["Working Hours"]);
             uint idDepartment = Convert.ToUInt32(employee["Id Department"]);
 
-            _employeeManagement.NewWorker(name, surname, idDepartment, age, workingHours, hourlyPayment, post);
+            _employees.Add(new Worker(name, surname, idDepartment, age, workingHours, hourlyPayment, EmployeeManagement.NextId(), post));
         }
         private void DeserializDirector(JToken employee)
         {
@@ -89,7 +90,7 @@ namespace Module_11_WPF
             uint age = Convert.ToUInt32(employee["Age"]);
             uint idDepartment = Convert.ToUInt32(employee["Id Department"]);
 
-            _employeeManagement.NewDirektor(name, surname, age, idDepartment, post);
+            _employees.Add(new Director(name, surname, age ,EmployeeManagement.NextId(), idDepartment, post));
         }
 
         private void DeserializDepartment(string json)
