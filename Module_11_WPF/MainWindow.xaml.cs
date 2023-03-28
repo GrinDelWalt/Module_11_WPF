@@ -99,6 +99,7 @@ namespace Module_11_WPF
 
                     Sort(path, direction);
 
+
                     _lastHeaderClicked = headerClicked;
                     _lastDirection = direction;
                 }
